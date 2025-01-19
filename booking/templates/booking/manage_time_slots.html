@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Time Slots</title>
+</head>
+<body>
+    <h1>Manage Available Time Slots</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Time Slot</button>
+    </form>
+
+    <h2>Existing Time Slots</h2>
+    <ul>
+        {% for slot in time_slots %}
+            <li>
+                {{ slot.service.name }}: {{ slot.date }} 
+                ({{ slot.start_time }} - {{ slot.end_time }})
+                {% if not slot.is_booked %}
+                - Available
+                {% else %}
+                - Booked
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

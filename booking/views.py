@@ -1,6 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from .models import Service, Booking
+from django.shortcuts import render, redirect
+from django.forms import ModelForm
+from .models import Service, Booking, TimeSlot
 
 # Home Page
 def home(request):
@@ -22,6 +23,25 @@ def book_service(request):
 
 # List of bookings for a user
 def user_bookings(request):
-    # Filter bookings for a specific user (placeholder for now)
-    bookings = Booking.objects.all()  # Display all bookings
+    # Filter bookings for a specific user
+    bookings = Booking.objects.all()  # Display all bookings for now
     return render(request, "booking/user_bookings.html", {"bookings": bookings})
+
+# Form to manage TimeSlots
+class TimeSlotForm(ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = ["service", "date", "start_time", "end_time", "is_booked"]
+
+# View to manage TimeSlots
+def manage_time_slots(request):
+    if request.method == "POST":
+        form = TimeSlotForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_time_slots")
+    else:
+        form = TimeSlotForm()
+
+    time_slots = TimeSlot.objects.all()
+    return render(request, "booking/manage_time_slots.html", {"form": form, "time_slots": time_slots})
