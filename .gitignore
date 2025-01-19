@@ -1,7 +1,38 @@
+# Ignore environment folder
 env/
+
+# Ignore database
+db.sqlite3
+
+# Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Django specific files
+*.log
+*.pot
+*.pyc
+*.pyo
 __pycache__/
 db.sqlite3
-*.pyc
+staticfiles/
+
+# macOS specific files
 .DS_Store
 
+# Editor specific files
+.vscode/
+.idea/
+
+# Git-specific files
+*.swp
+*.swo
+
+# Other backup or temp files
+*.bak
+*.orig
+*.tmp
+*.~*
 
