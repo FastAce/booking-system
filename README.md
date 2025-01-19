@@ -1,6 +1,6 @@
 # Booking System (MVP)
 
-A Django-based booking system for managing appointments. The system is modular, allowing users to define their own services and workflows without altering the core structure.
+A Django-based (for the moment) booking system for managing appointments. The system is modular, allowing users to define their own services and workflows without altering the core structure.
 
 ---
 
@@ -16,45 +16,45 @@ The Booking System enables:
 ## Installation
 
 ### Clone the repository
-\`\`\`bash
+```bash
 git clone https://github.com/FastAce/booking-system.git
 cd booking-system
-\`\`\`
+```
 
 ### Create a virtual environment (optional)
 #### Create the environment:
-\`\`\`bash
+```bash
 python -m venv env
-\`\`\`
+```
 
 #### Activate it:
 - **Windows**:
-  \`\`\`bash
+  ```bash
   .\\env\\Scripts\\activate
-  \`\`\`
+  ```
 - **Linux/Mac**:
-  \`\`\`bash
+  ```bash
   source env/bin/activate
-  \`\`\`
+  ```
 
 #### Install required Python packages:
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ---
 
 ## Running the Application
 
 ### Apply migrations:
-\`\`\`bash
+```bash
 python manage.py migrate
-\`\`\`
+```
 
 ### Start the Django development server:
-\`\`\`bash
+```bash
 python manage.py runserver
-\`\`\`
+```
 
 ### Access the application:
 Open your browser and navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000).
@@ -81,18 +81,18 @@ Open your browser and navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ### Project Structure
 The project follows a standard Django structure:
-- **\`booking_system/\`**: Core Django project files.
-- **\`booking/\`**: Application folder for managing services, availability, and bookings.
-- **\`templates/\`**: HTML templates for views (future addition).
-- **\`static/\`**: Static files like CSS and JS (future addition).
+- **booking_system**: Core Django project files.
+- **booking**: Application folder for managing services, availability, and bookings.
+- **templates**: HTML templates for views (future addition).
+- **static**: Static files like CSS and JS (future addition).
 
 ---
 
 ## Running Tests
 Run the unit tests:
-\`\`\`bash
+```bash
 python manage.py test
-\`\`\`
+```
 
 ---
 
@@ -102,17 +102,17 @@ Contributions are welcome! 🎉
 
 1. Fork the repository.
 2. Create a new branch:
-   \`\`\`bash
+   ```bash
    git checkout -b feature/your-feature-name
-   \`\`\`
+   ```
 3. Make your changes and commit them:
-   \`\`\`bash
+   ```bash
    git commit -m "Add meaningful commit message"
-   \`\`\`
+   ```
 4. Push to your branch:
-   \`\`\`bash
+   ```bash
    git push origin feature/your-feature-name
-   \`\`\`
+   ```
 5. Open a Pull Request on GitHub.
 
 ---
