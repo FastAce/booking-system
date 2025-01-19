@@ -1,4 +1,3 @@
-cat <<EOL > README.md
 # Booking System (MVP)
 
 A Django-based booking system for managing appointments. The system is modular, allowing users to define their own services and workflows without altering the core structure.
@@ -161,5 +160,4 @@ Feel free to contribute to this project by working on any of the tasks above!
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-EOL
 
