@@ -3,9 +3,10 @@
 {% block title %}Book a Service{% endblock %}
 
 {% block content %}
-<h1>Book a Service</h1>
+<h1>Reservation Form</h1>
 <form method="post">
     {% csrf_token %}
+    <!-- Add form fields here -->
     <label for="name">Your Name:</label>
     <input type="text" id="name" name="name" required><br>
 

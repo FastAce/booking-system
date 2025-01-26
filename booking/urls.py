@@ -8,3 +8,4 @@ urlpatterns = [
     path("my-bookings/", views.user_bookings, name="user_bookings"),  # User bookings
     path("manage-time-slots/", views.manage_time_slots, name="manage_time_slots"),  # Manage time slots
 ]
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Booking System{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f9f9f9; /* couleur de fond */
+        }
+        nav {
+            width: 200px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 15px 0;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #007BFF;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar menu -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'services_list' %}">Services</a></li>
+            <li><a href="{% url 'book_service' %}">Book a Service</a></li>
+            <li><a href="{% url 'user_bookings' %}">My Bookings</a></li>
+            <li><a href="{% url 'manage_time_slots' %}">Manage Time Slots</a></li>
+        </ul>
+    </nav>
+            
+    <!-- Content area -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+

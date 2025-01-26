@@ -5,43 +5,48 @@ from .models import Service, Booking, TimeSlot
 
 # Home Page
 def home(request):
-    return HttpResponse("<h1>Welcome to the Booking System!</h1>")
+    # Render the home page
+    return render(request, "booking/home.html")
 
 # List of available services
 def services_list(request):
-    services = Service.objects.all()  # Retrieve all available services
+    # Retrieve all available services from the database
+    services = Service.objects.all()
     return render(request, "booking/services_list.html", {"services": services})
 
 # Form to book a service
 def book_service(request):
     if request.method == "POST":
-        # Process form data here (placeholder for now)
+        # Placeholder for form processing logic
         return HttpResponse("<h1>Reservation submitted successfully!</h1>")
     else:
-        # Display the booking form
+        # Render the booking form
         return render(request, "booking/book_service.html", {})
 
 # List of bookings for a user
 def user_bookings(request):
-    # Filter bookings for a specific user
-    bookings = Booking.objects.all()  # Display all bookings for now
+    # Retrieve all bookings from the database
+    bookings = Booking.objects.all()
     return render(request, "booking/user_bookings.html", {"bookings": bookings})
 
-# Form to manage TimeSlots
+# Form to manage time slots
 class TimeSlotForm(ModelForm):
     class Meta:
         model = TimeSlot
         fields = ["service", "date", "start_time", "end_time", "is_booked"]
 
-# View to manage TimeSlots
+# View to manage time slots
 def manage_time_slots(request):
     if request.method == "POST":
         form = TimeSlotForm(request.POST)
         if form.is_valid():
+            # Save the new or updated time slot to the database
             form.save()
-            return redirect("manage_time_slots")
+            return redirect("manage_time_slots")  # Redirect to the same page after saving
     else:
         form = TimeSlotForm()
 
+    # Retrieve all existing time slots from the database
     time_slots = TimeSlot.objects.all()
     return render(request, "booking/manage_time_slots.html", {"form": form, "time_slots": time_slots})
+
