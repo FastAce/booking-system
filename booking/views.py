@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.forms import ModelForm
 from .models import Service, Booking, TimeSlot
@@ -48,5 +48,23 @@ def manage_time_slots(request):
 
     # Retrieve all existing time slots from the database
     time_slots = TimeSlot.objects.all()
-    return render(request, "booking/manage_time_slots.html", {"form": form, "time_slots": time_slots})
+    services = Service.objects.all()  # Add services for dropdown in the form
+    return render(request, "booking/manage_time_slots.html", {
+        "form": form,
+        "time_slots": time_slots,
+        "services": services
+    })
+
+# API view to provide time slots data for the calendar
+def time_slots_json(request):
+    time_slots = TimeSlot.objects.all()
+    events = []
+    for slot in time_slots:
+        events.append({
+            "title": f"{slot.service.name} - {'Booked' if slot.is_booked else 'Available'}",
+            "start": f"{slot.date}T{slot.start_time}",
+            "end": f"{slot.date}T{slot.end_time}",
+            "color": "#d9534f" if slot.is_booked else "#5cb85c",  # Red for booked, green for available
+        })
+    return JsonResponse(events, safe=False)
 

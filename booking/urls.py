@@ -7,5 +7,6 @@ urlpatterns = [
     path("book/", views.book_service, name="book_service"),  # Booking form
     path("my-bookings/", views.user_bookings, name="user_bookings"),  # User bookings
     path("manage-time-slots/", views.manage_time_slots, name="manage_time_slots"),  # Manage time slots
+    path("time-slots-json/", views.time_slots_json, name="time_slots_json"),  # API for calendar events
 ]
 

@@ -4,6 +4,8 @@
 
 {% block content %}
 <h1>Manage Time Slots</h1>
+
+<!-- Form for adding new time slots -->
 <form method="post">
     {% csrf_token %}
     <label for="date">Date:</label>
@@ -15,8 +17,40 @@
     <label for="end_time">End Time:</label>
     <input type="time" id="end_time" name="end_time" required><br>
 
+    <label for="service">Service:</label>
+    <select id="service" name="service" required>
+        {% for service in services %}
+            <option value="{{ service.id }}">{{ service.name }}</option>
+        {% endfor %}
+    </select><br>
+
     <button type="submit">Save</button>
 </form>
-{% endblock %}
 
+<hr>
+
+<!-- FullCalendar integration -->
+<div id="calendar"></div>
+
+<!-- FullCalendar scripts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Default view
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: '/time-slots-json/', // URL for fetching time slots
+            eventColor: '#3788d8', // Default event color
+        });
+        calendar.render();
+    });
+</script>
+
+{% endblock %}
 
