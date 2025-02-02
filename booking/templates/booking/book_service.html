@@ -13,7 +13,7 @@
     </ul>
 {% endif %}
 
-<form method="post">
+<form method="post" id="booking-form">
     {% csrf_token %}
 
     <label for="name">Your Name:</label>
@@ -22,11 +22,10 @@
     <label for="email">Your Email:</label>
     <input type="email" id="email" name="client_email" required><br>
 
-    <label for="service">Choose Service:</label>
-    <select id="service" name="service" required>
-        <option value="">-- Select a service --</option>
+    <label for="service">Choose Service(s):</label>
+    <select id="service" name="services" multiple required>
         {% for service in services %}
-            <option value="{{ service.id }}">{{ service.name }}</option>
+            <option value="{{ service.id }}" data-price="{{ service.price }}">{{ service.name }} - €{{ service.price }}</option>
         {% endfor %}
     </select><br>
 
@@ -35,14 +34,52 @@
         <option value="">-- Select a time slot --</option>
         {% for time_slot in time_slots %}
             {% if not time_slot.is_booked %}
-                <option value="{{ time_slot.id }}">
+                <option value="{{ time_slot.id }}" data-date="{{ time_slot.date }}" data-time="{{ time_slot.start_time }}">
                     {{ time_slot.date }} - {{ time_slot.start_time }} to {{ time_slot.end_time }} ({{ time_slot.service.name }})
                 </option>
             {% endif %}
         {% endfor %}
     </select><br>
 
-    <button type="submit">Book</button>
+    <!-- Recap before submission -->
+    <h3>Booking Summary</h3>
+    <p><strong>Name:</strong> <span id="summary-name"></span></p>
+    <p><strong>Email:</strong> <span id="summary-email"></span></p>
+    <p><strong>Selected Services:</strong> <span id="summary-services"></span></p>
+    <p><strong>Total Price:</strong> €<span id="summary-price">0.00</span></p>
+    <p><strong>Selected Date:</strong> <span id="summary-date"></span></p>
+    <p><strong>Time Slot:</strong> <span id="summary-time"></span></p>
+
+    <button type="button" id="preview-btn">Preview Booking</button>
+    <button type="submit" id="submit-btn" style="display: none;">Confirm Booking</button>
 </form>
+
+<script>
+    document.getElementById("preview-btn").addEventListener("click", function () {
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let selectedServices = [];
+        let totalPrice = 0;
+
+        document.querySelectorAll("#service option:checked").forEach(option => {
+            selectedServices.push(option.text);
+            totalPrice += parseFloat(option.getAttribute("data-price"));
+        });
+
+        let selectedTimeSlot = document.getElementById("time_slot").selectedOptions[0];
+        let date = selectedTimeSlot.getAttribute("data-date");
+        let time = selectedTimeSlot.getAttribute("data-time");
+
+        document.getElementById("summary-name").innerText = name;
+        document.getElementById("summary-email").innerText = email;
+        document.getElementById("summary-services").innerText = selectedServices.join(", ");
+        document.getElementById("summary-price").innerText = totalPrice.toFixed(2);
+        document.getElementById("summary-date").innerText = date;
+        document.getElementById("summary-time").innerText = time;
+
+        document.getElementById("submit-btn").style.display = "block";
+    });
+</script>
+
 {% endblock %}
 

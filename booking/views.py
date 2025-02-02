@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from .models import Service, Booking, TimeSlot
-from .models import BookingForm, TimeSlotForm
+from .forms import BookingForm, TimeSlotForm  # Import correct des forms
 
 # Home Page
 def home(request):
@@ -22,28 +22,36 @@ def book_service(request):
         if form.is_valid(): 
             booking = form.save(commit=False)
 
-            # Marquer le créneau comme réservé
+            # Vérifier si le créneau est toujours disponible
             time_slot = booking.time_slot
             if not time_slot.is_booked:
                 time_slot.is_booked = True
                 time_slot.save()
+                
+                booking.date = time_slot.date
+                booking.time = time_slot.start_time
                 booking.save()
-                return HttpResponse("<h1>Reservation submitted successfully!</h1>")
+
+                # Ajouter plusieurs services à la réservation
+                form.save_m2m()
+
+                return redirect("user_bookings")  # Redirige vers la liste des réservations
             else:
                 return HttpResponse("<h1>Error: Time slot already booked!</h1>")
     else:
         form = BookingForm()
 
-    # Récupérer uniquement les créneaux disponibles
     available_time_slots = TimeSlot.objects.filter(is_booked=False)
+    services = Service.objects.all()  # Ajout des services
     return render(request, "booking/book_service.html", {
         "form": form,
-        "time_slots": available_time_slots
+        "time_slots": available_time_slots,
+        "services": services
     })
 
 # List of bookings for a user
 def user_bookings(request):
-    """Retrieve all bookings from the database."""
+    """Retrieve all bookings from the database and improve display."""
     bookings = Booking.objects.all()
     return render(request, "booking/user_bookings.html", {"bookings": bookings})
 

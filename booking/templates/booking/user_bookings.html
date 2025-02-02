@@ -4,10 +4,58 @@
 
 {% block content %}
 <h1>My Bookings</h1>
-<ul>
-    {% for booking in bookings %}
-    <li>{{ booking.client_name }} - {{ booking.date }} at {{ booking.time }}</li>
-    {% endfor %}
-</ul>
+
+{% if bookings %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Services</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.client_name }}</td>
+                <td>
+                    {% for service in booking.services.all %}
+                        {{ service.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ booking.date }}</td>
+                <td>{{ booking.time }}</td>
+                <td>€{{ booking.total_price }}</td>
+                <td>
+                    {% if booking.is_canceled %}
+                        <span style="color: red;">Canceled</span>
+                    {% else %}
+                        <span style="color: green;">Confirmed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.can_be_canceled %}
+                        <form method="post" action="{% url 'cancel_booking' booking.id %}">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                Cancel
+                            </button>
+                        </form>
+                    {% else %}
+                        <span style="color: gray;">Not cancellable</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No bookings found.</p>
+{% endif %}
+
 {% endblock %}
 
