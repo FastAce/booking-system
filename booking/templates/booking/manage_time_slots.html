@@ -8,6 +8,9 @@
 <!-- Form for adding new time slots -->
 <form method="post">
     {% csrf_token %}
+    <label for="provider">Provider Name:</label>
+    <input type="text" id="provider" name="provider" required><br>
+
     <label for="date">Date:</label>
     <input type="date" id="date" name="date" required><br>
 
@@ -26,6 +29,30 @@
 
     <button type="submit">Save</button>
 </form>
+
+<hr>
+
+<h2>Available Time Slots</h2>
+<table border="1">
+    <tr>
+        <th>Provider</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+    </tr>
+    {% for time_slot in time_slots %}
+    <tr>
+        <td>{{ time_slot.provider }}</td>
+        <td>{{ time_slot.service.name }}</td>
+        <td>{{ time_slot.date }}</td>
+        <td>{{ time_slot.start_time }}</td>
+        <td>{{ time_slot.end_time }}</td>
+        <td>{% if time_slot.is_booked %}Booked{% else %}Available{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 <hr>
 
@@ -51,6 +78,5 @@
         calendar.render();
     });
 </script>
-
 {% endblock %}
 

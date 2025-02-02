@@ -4,18 +4,41 @@
 
 {% block content %}
 <h1>Book a Service</h1>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <form method="post">
     {% csrf_token %}
+
     <label for="name">Your Name:</label>
-    <input type="text" id="name" name="name" required><br>
+    <input type="text" id="name" name="client_name" required><br>
 
     <label for="email">Your Email:</label>
-    <input type="email" id="email" name="email" required><br>
+    <input type="email" id="email" name="client_email" required><br>
 
     <label for="service">Choose Service:</label>
-    <select id="service" name="service">
+    <select id="service" name="service" required>
+        <option value="">-- Select a service --</option>
         {% for service in services %}
             <option value="{{ service.id }}">{{ service.name }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="time_slot">Choose an Available Time Slot:</label>
+    <select id="time_slot" name="time_slot" required>
+        <option value="">-- Select a time slot --</option>
+        {% for time_slot in time_slots %}
+            {% if not time_slot.is_booked %}
+                <option value="{{ time_slot.id }}">
+                    {{ time_slot.date }} - {{ time_slot.start_time }} to {{ time_slot.end_time }} ({{ time_slot.service.name }})
+                </option>
+            {% endif %}
         {% endfor %}
     </select><br>
 
