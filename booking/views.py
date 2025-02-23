@@ -8,13 +8,13 @@ def home(request):
     """Render the home page."""
     return render(request, "booking/home.html")
 
-# List of available services
+# List of available services (Fournisseur)
 def services_list(request):
     """Retrieve all available services from the database."""
     services = Service.objects.all()
-    return render(request, "booking/services_list.html", {"services": services})
+    return render(request, "provider/services_list.html", {"services": services})
 
-# Form to book a service
+# Form to book a service (Client)
 def book_service(request):
     """Allow clients to book a service by selecting an available time slot."""
     if request.method == "POST":
@@ -35,7 +35,7 @@ def book_service(request):
                 # Ajouter plusieurs services à la réservation
                 form.save_m2m()
 
-                return redirect("user_bookings")  # Redirige vers la liste des réservations
+                return redirect("user_bookings")  # Redirige vers la liste des réservations client
             else:
                 return HttpResponse("<h1>Error: Time slot already booked!</h1>")
     else:
@@ -43,19 +43,19 @@ def book_service(request):
 
     available_time_slots = TimeSlot.objects.filter(is_booked=False)
     services = Service.objects.all()  # Ajout des services
-    return render(request, "booking/book_service.html", {
+    return render(request, "client/book_service.html", {
         "form": form,
         "time_slots": available_time_slots,
         "services": services
     })
 
-# List of bookings for a user
+# List of bookings for a user (Client)
 def user_bookings(request):
     """Retrieve all bookings from the database and improve display."""
     bookings = Booking.objects.all()
-    return render(request, "booking/user_bookings.html", {"bookings": bookings})
+    return render(request, "client/user_bookings.html", {"bookings": bookings})
 
-# View to manage time slots (Provider side)
+# View to manage time slots (Fournisseur)
 def manage_time_slots(request):
     """Allow providers to manage available time slots."""
     if request.method == "POST":
@@ -69,7 +69,7 @@ def manage_time_slots(request):
     # Retrieve all existing time slots
     time_slots = TimeSlot.objects.all()
     services = Service.objects.all()  # Add services for dropdown in the form
-    return render(request, "booking/manage_time_slots.html", {
+    return render(request, "provider/manage_time_slots.html", {
         "form": form,   
         "time_slots": time_slots,
         "services": services
