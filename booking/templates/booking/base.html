@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Booking System{% endblock %}</title>
+    
     <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +20,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            color: #fff; /* White for contrast */
+            color: #fff;
         }
         nav {
             width: 200px;
@@ -85,18 +87,19 @@
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'services_list' %}">Services</a></li>
-            <li><a href="{% url 'book_service' %}">Book a Service</a></li>
-            <li><a href="{% url 'user_bookings' %}">My Bookings</a></li>
-            <li><a href="{% url 'manage_time_slots' %}">Manage Time Slots</a></li>
+            <li><a href="{% url 'provider:services_list' %}">Services</a></li>
+            <li><a href="{% url 'client:book_service' %}">Book a Service</a></li>
+            <li><a href="{% url 'client:user_bookings' %}">My Bookings</a></li>
+            <li><a href="{% url 'provider:manage_time_slots' %}">Manage Time Slots</a></li>
         </ul>
     </nav>
-            
+
     <!-- Content area -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
+
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 </body>

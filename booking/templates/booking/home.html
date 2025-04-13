@@ -6,8 +6,8 @@
 <h1>Welcome to the Booking System!</h1>
 <p>Choose a service, make a booking, or manage your reservations easily.</p>
 <div class="cta-buttons">
-    <a href="{% url 'services_list' %}">View Services</a>
-    <a href="{% url 'book_service' %}">Book a Service</a>
+    <a href="{% url 'provider:services_list' %}">View Services</a>
+    <a href="{% url 'client:book_service' %}">Book a Service</a>
 </div>
 {% endblock %}
 
